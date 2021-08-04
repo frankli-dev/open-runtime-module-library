@@ -819,6 +819,7 @@ impl<T, GetCurrencyId> PalletCurrency<T::AccountId> for CurrencyAdapter<T, GetCu
 where
 	T: Config,
 	GetCurrencyId: Get<T::CurrencyId>,
+	<T as module::Config>::Balance: frame_support::traits::MaxEncodedLen
 {
 	type Balance = T::Balance;
 	type PositiveImbalance = PositiveImbalance<T, GetCurrencyId>;
@@ -989,6 +990,7 @@ impl<T, GetCurrencyId> PalletReservableCurrency<T::AccountId> for CurrencyAdapte
 where
 	T: Config,
 	GetCurrencyId: Get<T::CurrencyId>,
+	<T as module::Config>::Balance: frame_support::traits::MaxEncodedLen
 {
 	fn can_reserve(who: &T::AccountId, value: Self::Balance) -> bool {
 		Pallet::<T>::can_reserve(GetCurrencyId::get(), who, value)
@@ -1025,6 +1027,7 @@ impl<T, GetCurrencyId> PalletLockableCurrency<T::AccountId> for CurrencyAdapter<
 where
 	T: Config,
 	GetCurrencyId: Get<T::CurrencyId>,
+	<T as module::Config>::Balance: frame_support::traits::MaxEncodedLen
 {
 	type Moment = T::BlockNumber;
 	type MaxLocks = ();
