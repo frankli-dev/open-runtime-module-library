@@ -321,7 +321,7 @@ impl<T: Config> Pallet<T> {
 			Zero::zero(),
 			|acc_amount, schedule| {
 				let amount = Self::ensure_valid_vesting_schedule(schedule)?;
-				Ok(acc_amount + amount)
+				Ok(acc_amount.saturating_add(amount))
 			},
 		)?;
 		ensure!(
