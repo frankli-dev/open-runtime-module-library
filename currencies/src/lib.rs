@@ -47,7 +47,7 @@ use frame_support::{
 		ReservableCurrency as PalletReservableCurrency, WithdrawReasons,
 	},
 };
-use frame_system::{ensure_root, ensure_signed, pallet_prelude::*};
+use frame_system::{ensure_root, ensure_signed, pallet_prelude::*, log};
 use orml_traits::{
 	account::MergeAccount,
 	arithmetic::{Signed, SimpleArithmetic},
@@ -125,7 +125,6 @@ pub mod module {
 		Transferred(CurrencyIdOf<T>, T::AccountId, T::AccountId, BalanceOf<T>),
 		/// Update balance success. [currency_id, who, amount]
 		BalanceUpdated(CurrencyIdOf<T>, T::AccountId, AmountOf<T>),
-		DepositCreatingCalled(),
 		/// Deposit success. [currency_id, who, amount]
 		Deposited(CurrencyIdOf<T>, T::AccountId, BalanceOf<T>),
 		/// Withdraw success. [currency_id, who, amount]
@@ -575,7 +574,7 @@ where
 
 	fn deposit(who: &AccountId, amount: Self::Balance) -> DispatchResult {
 		let _ = Currency::deposit_creating(who, amount);
-		Self::deposit_event(Event::DepositCreatingCalled());
+		log::info("hello");
 		Ok(())
 	}
 
