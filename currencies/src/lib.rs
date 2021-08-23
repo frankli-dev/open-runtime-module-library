@@ -575,7 +575,7 @@ where
 
 	fn deposit(who: &AccountId, amount: Self::Balance) -> DispatchResult {
 		let _ = Currency::deposit_creating(who, amount);
-		log::info("hello");
+		log::info!("hello");
 		Ok(())
 	}
 
