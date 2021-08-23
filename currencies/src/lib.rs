@@ -46,8 +46,9 @@ use frame_support::{
 		Currency as PalletCurrency, ExistenceRequirement, Get, LockableCurrency as PalletLockableCurrency,
 		ReservableCurrency as PalletReservableCurrency, WithdrawReasons,
 	},
+	log
 };
-use frame_system::{ensure_root, ensure_signed, pallet_prelude::*, log};
+use frame_system::{ensure_root, ensure_signed, pallet_prelude::*};
 use orml_traits::{
 	account::MergeAccount,
 	arithmetic::{Signed, SimpleArithmetic},
