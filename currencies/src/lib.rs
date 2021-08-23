@@ -125,6 +125,8 @@ pub mod module {
 		Transferred(CurrencyIdOf<T>, T::AccountId, T::AccountId, BalanceOf<T>),
 		/// Update balance success. [currency_id, who, amount]
 		BalanceUpdated(CurrencyIdOf<T>, T::AccountId, AmountOf<T>),
+		NativeBalanceUpdated(CurrencyIdOf<T>, T::AccountId, AmountOf<T>),
+		NonNativeBalanceUpdated(CurrencyIdOf<T>, T::AccountId, AmountOf<T>),
 		/// Deposit success. [currency_id, who, amount]
 		Deposited(CurrencyIdOf<T>, T::AccountId, BalanceOf<T>),
 		/// Withdraw success. [currency_id, who, amount]
@@ -303,8 +305,10 @@ impl<T: Config> MultiCurrencyExtended<T::AccountId> for Pallet<T> {
 	fn update_balance(currency_id: Self::CurrencyId, who: &T::AccountId, by_amount: Self::Amount) -> DispatchResult {
 		if currency_id == T::GetNativeCurrencyId::get() {
 			T::NativeCurrency::update_balance(who, by_amount)?;
+			Self::deposit_event(Event::NativeBalanceUpdated(currency_id, who.clone(), by_amount));
 		} else {
 			T::MultiCurrency::update_balance(currency_id, who, by_amount)?;
+			Self::deposit_event(Event::NonNativeBalanceUpdated(currency_id, who.clone(), by_amount));
 		}
 		Self::deposit_event(Event::BalanceUpdated(currency_id, who.clone(), by_amount));
 		Ok(())
